@@ -1,0 +1,81 @@
+import java.util.Scanner;
+
+class RegistrationException extends Exception {
+    public RegistrationException(String message) {
+        super(message);
+    }
+}
+
+public class ExamRegistration {
+
+    static Scanner sc = new Scanner(System.in);
+
+    static void checkRegistration()
+            throws RegistrationException {
+
+        System.out.print("Enter Student ID: ");
+        String id = sc.nextLine();
+
+        if (id.trim().isEmpty()) {
+            throw new RegistrationException(
+                "Student ID is required."
+            );
+        }
+
+        System.out.print("Enter Student Name: ");
+        String studentName = sc.nextLine();
+
+        System.out.print("Enter Age: ");
+        int studentAge = Integer.parseInt(sc.nextLine());
+
+        if (studentAge < 18) {
+            throw new RegistrationException(
+                "Student must be 18 or older."
+            );
+        }
+
+        System.out.print("Enter Exam Mark: ");
+        double examMark = Double.parseDouble(sc.nextLine());
+
+        if (examMark < 0 || examMark > 100) {
+            throw new RegistrationException(
+                "Mark must be from 0 to 100."
+            );
+        }
+
+        System.out.print("Enter Number of Subjects: ");
+        int subjectCount = Integer.parseInt(sc.nextLine());
+
+        if (subjectCount < 1 || subjectCount > 5) {
+            throw new RegistrationException(
+                "You can register for 1 to 5 subjects only."
+            );
+        }
+
+        System.out.println("\nRegistration Completed Successfully!");
+        System.out.println("Student Name: " + studentName);
+        System.out.println("Student ID: " + id);
+        System.out.println("Number of Subjects: " + subjectCount);
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println("===== UNIVERSITY EXAM REGISTRATION =====");
+
+        try {
+            checkRegistration();
+
+        } catch (RegistrationException e) {
+            System.out.println("\nRegistration Unsuccessful!");
+            System.out.println("Reason: " + e.getMessage());
+
+        } catch (NumberFormatException e) {
+            System.out.println("\nInvalid Input!");
+            System.out.println("Please enter numbers for age, mark and subjects.");
+
+        } finally {
+            System.out.println("\nRegistration process has ended.");
+            sc.close();
+        }
+    }
+}
